@@ -6,5 +6,10 @@ Inspired by http://www.willmcginnis.com/2015/11/29/beyond-one-hot-an-exploration
 
 `
     $ ./setup.sh
+`
+
+###Run demo
+
+`
     $ ./run_demo.sh
 `
