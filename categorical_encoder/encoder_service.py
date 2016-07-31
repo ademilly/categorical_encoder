@@ -1,5 +1,5 @@
 import categorical_encoder
-from utils import utils
+import utils
 
 
 class EncoderService(object):

@@ -4,5 +4,6 @@ from ordinal_encoder import OrdinalEncoder
 
 from encoder_service import EncoderService
 
+import utils
 
-__all__ = [Encoder, BinaryEncoder, EncoderService, OrdinalEncoder]
+__all__ = [Encoder, BinaryEncoder, EncoderService, OrdinalEncoder, utils]
