@@ -1,3 +1,7 @@
+"""Various loaders for datasets
+from https://archive.ics.uci.edu/ml/machine-learning-databases/
+"""
+
 def get_car_data(src_file):
 
     mapping_dict = {
@@ -17,7 +21,7 @@ def get_car_data(src_file):
             'small': 0, 'med': 1, 'big': 2
         },
         '5': {
-            'low': 0, 'med': 1, 'high': 2, 
+            'low': 0, 'med': 1, 'high': 2,
         }
     }
 

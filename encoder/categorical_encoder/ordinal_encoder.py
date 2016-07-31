@@ -3,6 +3,10 @@ from collections import Counter
 import categorical_encoder
 
 class OrdinalEncoder(categorical_encoder.Encoder):
+    """Ordinal encoder class
+
+    Ordinal transformation
+    """
 
     def fit(self, column):
 

@@ -3,6 +3,10 @@ from collections import Counter
 import categorical_encoder
 
 class BinaryEncoder(categorical_encoder.Encoder):
+    """Binary encoder class
+
+    Binary transformation
+    """
 
     def fit(self, column):
 

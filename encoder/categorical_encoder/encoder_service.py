@@ -3,6 +3,12 @@ import utils
 
 
 class EncoderService(object):
+    """Encoding service class
+
+    Manages encoders for a categorical dataset
+
+    encoder_dict -- dict of encoders available to all instance of EncoderService
+    """
 
     encoder_dict = {
         'binary': categorical_encoder.BinaryEncoder,
@@ -10,12 +16,20 @@ class EncoderService(object):
     }
 
     def __init__(self, encoder_type='binary', value_mask=None):
+        """Initialize class
 
-        self.binarizers = {}
+        Keyword arguments:
+        encoder_type -- string to be chosen among encoder_dict.keys()
+            (defaut: 'binary')
+        value_mask -- dict transforming values for each columns of dataset
+        """
+
+        self.encoders = {}
         self.encoder_type = encoder_type
         self.value_mask = value_mask
 
     def apply_mask(self, columns):
+        """Transform data following value_mask"""
 
         new_columns = []
         for i, c in enumerate(columns):
@@ -26,16 +40,17 @@ class EncoderService(object):
         return new_columns
 
     def fit_transform(self, X):
+        """Fit categorical dataset to encoding then transform it"""
 
         columns = utils.transpose(X)
         if self.value_mask is not None:
             columns = self.apply_mask(columns)
 
         for i in range(len(columns)):
-            self.binarizers[str(i)] = self.encoder_dict[
+            self.encoders[str(i)] = self.encoder_dict[
                 self.encoder_type
             ].__call__()
-            columns[i] = self.binarizers[str(i)].fit(columns[i]) \
+            columns[i] = self.encoders[str(i)].fit(columns[i]) \
                 .transform(columns[i])
 
         return utils.transpose(
