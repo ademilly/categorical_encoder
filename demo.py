@@ -20,7 +20,7 @@ def scores_for(data, target, encoding_type, mask=None):
     """Get scores for the couple data, target with encoding_type
     """
 
-    encoding_svc = categorical_encoder.EncoderService(
+    encoding_svc = categorical_encoder.encoder_service.EncoderService(
         encoder_type=encoding_type,
         value_mask=mask
     )
