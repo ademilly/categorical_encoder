@@ -20,6 +20,7 @@ class Encoder(object):
 
         self.translation_dict = {}
         self.most_common = ''
+        self.encoding_length = 1
 
     def __repr__(self):
         """Representation of class is its translation dictionnary"""

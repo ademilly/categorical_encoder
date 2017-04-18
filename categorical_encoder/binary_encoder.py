@@ -17,6 +17,7 @@ class BinaryEncoder(Encoder):
         self.most_common = count.most_common(1)[0][0]
 
         binary = len('{0:b}'.format(len(count) - 1))
+        self.encoding_length = binary
 
         for i, k in enumerate(sorted(count.keys())):
             self.translation_dict[k] = [

@@ -62,3 +62,20 @@ class EncoderService(object):
             columns,
             flatten=self.encoder_type in ['binary']
         )
+
+    def fit_transform_column(self, name, column):
+        """Fit and transform one `column` named `name`
+        """
+
+        self.encoders[name] = self.encoder_dict[
+            self.encoder_type
+        ].__call__()
+
+        transform = self.encoders[name].fit(column).transform(column)
+
+        return {
+            name + "_" + str(i): [list(_)[i] for _ in transform]
+            for i in range(self.encoders[name].encoding_length)
+        } if self.encoders[name].encoding_length > 1 else {
+            name: transform
+        }
