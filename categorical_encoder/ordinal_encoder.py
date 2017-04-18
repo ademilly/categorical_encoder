@@ -1,8 +1,11 @@
+"""Ordinal encoder module implements Ordinal encoding
+"""
 from collections import Counter
 
-import categorical_encoder
+from categorical_encoder.base_encoder import Encoder
 
-class OrdinalEncoder(categorical_encoder.Encoder):
+
+class OrdinalEncoder(Encoder):
     """Ordinal encoder class
 
     Ordinal transformation
@@ -10,10 +13,10 @@ class OrdinalEncoder(categorical_encoder.Encoder):
 
     def fit(self, column):
 
-        c = Counter(column)
-        self.most_common = c.most_common(1)[0][0]
+        count = Counter(column)
+        self.most_common = count.most_common(1)[0][0]
 
-        for i, k in enumerate(sorted(c.keys())):
+        for i, k in enumerate(sorted(count.keys())):
             self.translation_dict[k] = i
 
         return self

@@ -1,8 +1,11 @@
+"""Binary encoder implements Binary encoding
+"""
 from collections import Counter
 
-import categorical_encoder
+from categorical_encoder.base_encoder import Encoder
 
-class BinaryEncoder(categorical_encoder.Encoder):
+
+class BinaryEncoder(Encoder):
     """Binary encoder class
 
     Binary transformation
@@ -10,14 +13,14 @@ class BinaryEncoder(categorical_encoder.Encoder):
 
     def fit(self, column):
 
-        c = Counter(column)
-        self.most_common = c.most_common(1)[0][0]
+        count = Counter(column)
+        self.most_common = count.most_common(1)[0][0]
 
-        n = len('{0:b}'.format(len(c) - 1))
+        binary = len('{0:b}'.format(len(count) - 1))
 
-        for i, k in enumerate(sorted(c.keys())):
+        for i, k in enumerate(sorted(count.keys())):
             self.translation_dict[k] = [
-                int(_) for _ in '{0:b}'.format(i).zfill(n)
+                int(_) for _ in '{0:b}'.format(i).zfill(binary)
             ]
 
         return self

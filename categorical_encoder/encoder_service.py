@@ -1,5 +1,9 @@
-import categorical_encoder
-import utils
+"""Encoder service module provides an EncoderService class handling
+encoding usage
+"""
+from categorical_encoder.binary_encoder import BinaryEncoder
+from categorical_encoder.ordinal_encoder import OrdinalEncoder
+from categorical_encoder.utils import transpose
 
 
 class EncoderService(object):
@@ -7,12 +11,13 @@ class EncoderService(object):
 
     Manages encoders for a categorical dataset
 
-    encoder_dict -- dict of encoders available to all instance of EncoderService
+    encoder_dict -- dict of encoders available to all instance of
+    EncoderService
     """
 
     encoder_dict = {
-        'binary': categorical_encoder.BinaryEncoder,
-        'ordinal': categorical_encoder.OrdinalEncoder
+        'binary': BinaryEncoder,
+        'ordinal': OrdinalEncoder
     }
 
     def __init__(self, encoder_type='binary', value_mask=None):
@@ -32,28 +37,28 @@ class EncoderService(object):
         """Transform data following value_mask"""
 
         new_columns = []
-        for i, c in enumerate(columns):
+        for i, col in enumerate(columns):
             new_columns += [
-                [self.value_mask[str(i)][_] for _ in c]
+                [self.value_mask[str(i)][_] for _ in col]
             ]
 
         return new_columns
 
-    def fit_transform(self, X):
+    def fit_transform(self, data):
         """Fit categorical dataset to encoding then transform it"""
 
-        columns = utils.transpose(X)
+        columns = transpose(data)
         if self.value_mask is not None:
             columns = self.apply_mask(columns)
 
-        for i in range(len(columns)):
+        for i, _ in enumerate(columns):
             self.encoders[str(i)] = self.encoder_dict[
                 self.encoder_type
             ].__call__()
             columns[i] = self.encoders[str(i)].fit(columns[i]) \
                 .transform(columns[i])
 
-        return utils.transpose(
+        return transpose(
             columns,
             flatten=self.encoder_type in ['binary']
         )

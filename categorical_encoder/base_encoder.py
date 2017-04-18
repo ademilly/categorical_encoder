@@ -1,4 +1,8 @@
+"""Base encoder module implements Encoder object
+from which every encoder inherits
+"""
 from collections import Counter
+
 
 class Encoder(object):
     """Base encoder class
@@ -30,21 +34,20 @@ class Encoder(object):
         - Build translation dictionnary
         """
 
-        c = Counter(column)
-        self.most_common = c.most_common(1)[0][0]
+        count = Counter(column)
+        self.most_common = count.most_common(1)[0][0]
 
-        for i, k in enumerate(c.keys()):
+        for _, k in enumerate(count.keys()):
             self.translation_dict[k] = k
 
         return self
 
     def transform(self, column):
-        """Transform a column of values"""
+        """Transform a column of values
+        """
 
-        new_X = [
+        return [
             self.translation_dict[_] if _ in self.translation_dict.keys()
             else self.translation_dict[self.most_common]
             for _ in column
         ]
-
-        return new_X
