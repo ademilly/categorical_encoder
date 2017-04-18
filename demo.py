@@ -2,7 +2,7 @@
 """
 from sklearn import cross_validation, linear_model
 
-import categorical_encoder
+from categorical_encoder.encoder_service import EncoderService
 from loader import loader, downloader
 
 
@@ -20,7 +20,7 @@ def scores_for(data, target, encoding_type, mask=None):
     """Get scores for the couple data, target with encoding_type
     """
 
-    encoding_svc = categorical_encoder.encoder_service.EncoderService(
+    encoding_svc = EncoderService(
         encoder_type=encoding_type,
         value_mask=mask
     )
@@ -44,26 +44,39 @@ def print_accuracy(scores, text='', terminator='\n'):
     print the_str
 
 
-def run(data_source):
-    """run study for data_source
+def run(data, target, mask=None, **kwargs):
+    """run study for data vs target
     """
 
-    data, target, mask = loader.get_car_data(data_source)
     ordinal, binary = study(data, target, mask)
 
-    print_accuracy(ordinal, text='Car data, ordinal')
-    print_accuracy(binary, text='Car data, binary')
+    print_accuracy(ordinal, text=kwargs['title'] + ', ordinal')
+    print_accuracy(binary, text=kwargs['title'] + ', binary')
+
+
+def run_demo():
+    """Run demo for car + mushroom + splice data
+    """
+
+    downloader.download_car_data()
+    data, target, mask = loader.get_car_data('data/cars/car.data.txt')
+    run(data, target, mask, title='Car data')
+
+    downloader.download_mushroom_data()
+    data, target = loader.get_mushroom_data(
+        'data/mushrooms/agaricus-lepiota.data.txt'
+    )
+    run(data, target, title='Mushroom data')
+
+    downloader.download_splice_data()
+    data, target = loader.get_splice_data(
+        'data/splice/splice.data.txt'
+    )
+    run(data, target, title='Splice data')
 
 
 if __name__ == '__main__':
     """Quick encoding tests on multiple categorical datasets
     """
 
-    downloader.download_car_data()
-    run('data/cars/car.data.txt')
-
-    downloader.download_mushroom_data()
-    run('data/mushrooms/agaricus-lepiota.data.txt')
-
-    downloader.download_splice_data()
-    run('data/splice/splice.data.txt')
+    run_demo()
