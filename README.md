@@ -2,14 +2,13 @@
 
 Inspired by http://www.willmcginnis.com/2015/11/29/beyond-one-hot-an-exploration-of-categorical-variables/
 
-###Setup categorical_encoder package
-
-`
-    $ python setup.py install
-`
-
-###Usage
+### Setup categorical_encoder package
 ```
+    $ python setup.py install
+```
+
+### Usage
+```python
 import categorical_encoder
 encoder_service = categorical_encoder.EncoderService(encoder_type='binary')
 print encoder_service.fit_transform(
@@ -25,14 +24,8 @@ print encoder_service.fit_transform(
 [[1, 0, 0], [0, 0, 0], [0, 1, 1]]
 `
 
-###Setup demo
-
-`
-    $ ./setup.sh
-`
-
-###Run demo
-
-`
-    $ ./run_demo.sh
-`
+### Run demo/test
+```
+    $ make demo
+    $ make test
+```
