@@ -22,24 +22,27 @@ help:
 	@echo "        Setup local virtualenv for demo"
 
 clean:
-	rm -f *.pyc $(PACKAGE)/*.pyc loader/*.pyc
-	rm -rf $(PACKAGE)/__pycache__ tests/__pycache__
+	rm -f *.pyc $(PACKAGE)/*.pyc loader/*.pyc tests/*.pyc
+	rm -rf $(PACKAGE)/__pycache__ loader/__pycache__ tests/__pycache__
+
+clean_venv: clean
 	rm -rf venv
 
 test: clean
 	$(VENV_PYTEST_BIN) --verbose --color=yes tests/
 
-demo:
+demo: install_dev
 	$(VENV_PYTHON_BIN) demo.py
 
-install: clean
+install: clean_venv
 	virtualenv venv
 	$(VENV_PIP_BIN) install -U .
 
-install_demo: clean
+install_dev: clean_venv
 	virtualenv venv
 	$(VENV_PIP_BIN) install -U scipy
 	$(VENV_PIP_BIN) install -U numpy
 	$(VENV_PIP_BIN) install -U sklearn
+	$(VENV_PIP_BIN) install -U pytest
 
 .PHONY: clean
