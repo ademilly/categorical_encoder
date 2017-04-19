@@ -8,9 +8,11 @@ Inspired by http://www.willmcginnis.com/2015/11/29/beyond-one-hot-an-exploration
 ```
 
 ### Usage
+
+For a full categorical dataset:
 ```python
-import categorical_encoder
-encoder_service = categorical_encoder.EncoderService(encoder_type='binary')
+from categorical_encoder.encoder_service import EncoderService
+encoder_service = EncoderService(encoder_type='binary')
 print encoder_service.fit_transform(
     X=[
         ['red', 'car'],
@@ -22,6 +24,19 @@ print encoder_service.fit_transform(
 
 `
 [[1, 0, 0], [0, 0, 0], [0, 1, 1]]
+`
+
+For a column:
+```python
+from categorical_encoder.encoder_service import EncoderService
+encoder_service = EncoderService(encoder_type='binary')
+print encoder_service.fit_transform_column(name="color", column=[
+    'red', 'blue', 'green'
+])
+```
+
+`
+{'color_1': [0, 0, 1], 'color_0': [1, 0, 0]}
 `
 
 ### Run demo/test
