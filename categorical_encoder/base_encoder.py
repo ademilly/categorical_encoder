@@ -1,7 +1,7 @@
 """Base encoder module implements Encoder object
 from which every encoder inherits
 """
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 class Encoder(object):
@@ -38,8 +38,15 @@ class Encoder(object):
         count = Counter(column)
         self.most_common = count.most_common(1)[0][0]
 
+        translation_dict = {}
         for _, k in enumerate(count.keys()):
-            self.translation_dict[k] = k
+            translation_dict[k] = k
+
+        self.translation_dict = defaultdict(
+            lambda: translation_dict[self.most_common]
+        )
+        for key, value in translation_dict.items():
+            self.translation_dict[key] = value
 
         return self
 
@@ -47,8 +54,4 @@ class Encoder(object):
         """Transform a column of values
         """
 
-        return [
-            self.translation_dict[_] if _ in self.translation_dict.keys()
-            else self.translation_dict[self.most_common]
-            for _ in column
-        ]
+        return [self.translation_dict[_] for _ in column]
