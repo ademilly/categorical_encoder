@@ -2,7 +2,10 @@
 from https://archive.ics.uci.edu/ml/machine-learning-databases/
 """
 
+
 def get_car_data(src_file):
+    """Load car data
+    """
 
     mapping_dict = {
         '0': {
@@ -25,45 +28,49 @@ def get_car_data(src_file):
         }
     }
 
-    X, y = [], []
+    data, target = [], []
     with open(src_file) as fin:
 
         for _ in fin:
 
-            l = _.replace('\n', '').split(',')
-            X += [
-                [_ for _ in l[:-1]]
+            line = _.replace('\n', '').split(',')
+            data += [
+                [_ for _ in line[:-1]]
             ]
-            y += [l[-1]]
+            target += [line[-1]]
 
-    return X, y, mapping_dict
+    return data, target, mapping_dict
 
 
 def get_mushroom_data(src_file):
+    """Load mushroom data
+    """
 
-    X, y = [], []
+    data, target = [], []
     with open(src_file) as fin:
 
         for _ in fin:
 
-            l = _.replace('\n', '').split(',')
-            X += [l[1:]]
-            y += [l[0]]
+            line = _.replace('\n', '').split(',')
+            data += [line[1:]]
+            target += [line[0]]
 
-    return X, y
+    return data, target
 
 
 def get_splice_data(src_file):
+    """Load splice data
+    """
 
-    X, y = [], []
+    data, target = [], []
     with open(src_file) as fin:
 
         for _ in fin:
 
-            l = _.replace('\n', '').replace(' ', '').split(',')
-            X += [
-                [_ for _ in l[2]]
+            line = _.replace('\n', '').replace(' ', '').split(',')
+            data += [
+                [_ for _ in line[2]]
             ]
-            y += [l[0]]
+            target += [line[0]]
 
-    return X, y
+    return data, target

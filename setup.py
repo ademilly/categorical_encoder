@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+"""Setup module for categorical_encoder package
+"""
 from setuptools import setup
 
 setup(name='categorical_encoder',

@@ -1,4 +1,8 @@
-from collections import Counter
+"""Base encoder module implements Encoder object
+from which every encoder inherits
+"""
+from collections import Counter, defaultdict
+
 
 class Encoder(object):
     """Base encoder class
@@ -16,6 +20,7 @@ class Encoder(object):
 
         self.translation_dict = {}
         self.most_common = ''
+        self.encoding_length = 1
 
     def __repr__(self):
         """Representation of class is its translation dictionnary"""
@@ -30,21 +35,23 @@ class Encoder(object):
         - Build translation dictionnary
         """
 
-        c = Counter(column)
-        self.most_common = c.most_common(1)[0][0]
+        count = Counter(column)
+        self.most_common = count.most_common(1)[0][0]
 
-        for i, k in enumerate(c.keys()):
-            self.translation_dict[k] = k
+        translation_dict = {}
+        for _, k in enumerate(count.keys()):
+            translation_dict[k] = k
+
+        self.translation_dict = defaultdict(
+            lambda: translation_dict[self.most_common]
+        )
+        for key, value in translation_dict.items():
+            self.translation_dict[key] = value
 
         return self
 
     def transform(self, column):
-        """Transform a column of values"""
+        """Transform a column of values
+        """
 
-        new_X = [
-            self.translation_dict[_] if _ in self.translation_dict.keys()
-            else self.translation_dict[self.most_common]
-            for _ in column
-        ]
-
-        return new_X
+        return [self.translation_dict[_] for _ in column]
